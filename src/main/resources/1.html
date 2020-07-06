@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+预估时间: <input type="text" name="min"/>
+<button onclick="start()">开始计时</button>
+<p class="time"></p>
+<p class="count"></p>
+<script>
+       function start() {
+          countDown();
+        }
+
+		function showCurrTimeStr(){
+			var targetMin = document.getElementById('id');
+			if(targetMin == '' or targetMin == null){
+				return;
+			}
+
+			var date=new Date();     //1. js获取当前时间
+			var min=date.getMinutes();  //2. 获取当前分钟
+			date.setMinutes(min+10);  //3. 设置当前时间+10分钟：把当前分钟数+10后的值重新设置为date对象的分钟数
+			var y = date.getFullYear();
+			var m = (date.getMonth() + 1) < 10 ? ("0" + (date.getMonth() + 1)) : (date.getMonth() + 1);
+			var d = date.getDate() < 10 ? ("0" + date.getDate()) : date.getDate();
+			var h = date.getHours() < 10 ? ('0' + date.getHours()) : date.getHours()
+			var f = date.getMinutes() < 10 ? ('0' + date.getMinutes()) : date.getMinutes()
+			var s = date.getSeconds() < 10 ? ('0' + date.getseconds()) : date.getSeconds()
+			var formatdate = y+'-'+m+'-'+d + " " + h + ":" + f + ":" + s;
+			document.querySelector(".time").innerHTML = `目标时间：`+formatdate;
+		}
+
+		function countDown() {
+              var nowtime = new Date();
+              var endtime = new Date("2020/07/16,17:57:00");
+              var lefttime = parseInt((endtime.getTime() - nowtime.getTime()) / 1000);
+              var d = parseInt(lefttime / (24*60*60))
+              var h = parseInt(lefttime / (60 * 60) % 24);
+              var m = parseInt(lefttime / 60 % 60);
+              var s = parseInt(lefttime % 60);
+              d = addZero(d)
+              h = addZero(h);
+              m = addZero(m);
+              s = addZero(s);
+              document.querySelector(".count").innerHTML = `倒计时:  ${d}天 ${h} 时 ${m} 分 ${s} 秒`;
+              if (lefttime <= 0) {
+                  document.querySelector(".count").innerHTML = "活动已结束";
+                  return;
+              }
+              setTimeout(countDown, 1000);
+            }
+			function addZero(i) {
+              return i < 10 ? "0" + i: i + "";
+          }
+
+
+</script>
+</body>
+</html>
